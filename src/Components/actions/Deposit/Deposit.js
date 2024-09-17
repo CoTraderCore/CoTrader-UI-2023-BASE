@@ -47,7 +47,7 @@ function Deposit(props) {
                             agree ? (
                                 <FormControl>
                                     {
-                                        props.mainAsset === "MATIC"
+                                        props.mainAsset === "BASE"
                                             ?
                                             (
                                                 <DepositETH

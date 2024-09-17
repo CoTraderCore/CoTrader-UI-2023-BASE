@@ -132,7 +132,7 @@ function SmartFundList(props) {
         props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
           ?
           (
-            <Alert status="error" sx={{ color: "red", fontSize: "sm",fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center",textTransform:"uppercase" }}><AlertIcon color="red" />please change MetaMask to MATIC network</Alert>
+            <Alert status="error" sx={{ color: "red", fontSize: "sm",fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center",textTransform:"uppercase" }}><AlertIcon color="red" />please change MetaMask to BASE network</Alert>
           )
           : null
       }

@@ -7,16 +7,16 @@ export const MAX_TOKENS = 20
 
 export const OneInchApi = 'https://api.1inch.exchange/v3.0/137/'
 
-export const NeworkID = 137
-export const SmartFundRegistryADDRESS = '0x992F6c414A6DA6A7470dfB9D61eFc6639e9fbb0E'
-export const EtherscanLink = 'https://polygonscan.com/'
-export const APIEnpoint = !isLocal ? 'https://api-polygon.cotrader.com/' : 'http://localhost:9008/'
-export const PricePortalUNI = "0x6d85Dd4672AFad01a28bdfA8b4323bE910999954"
-export const ExchangePortalAddressLight = ''
-export const WETH = '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270'
-export const QuickSwapRouter = '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'
-export const USD_ADDRESS = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063" // DAI
-export const ManagerStatusAddress = '0x3ffa0CbFEf7E3a0112CCf7333193ac849248F375'
+export const NeworkID = 8453
+export const SmartFundRegistryADDRESS = '0xEEce063BB21E231B2b9981Ca254B19b651aDb021'
+export const EtherscanLink = 'https://basescan.com/'
+export const APIEnpoint = !isLocal ? 'http://localhost:9008/' : 'http://localhost:9008/'
+export const PricePortalUNI = "0x3aE392A4c6a99FcB991E208f9D74618fff513834"
+export const ExchangePortalAddressLight = '0x6F553184C04a4aD0b3551A4ff60FB73BB6E90408'
+export const WETH = '0x4200000000000000000000000000000000000006'
+export const QuickSwapRouter = '0x4752ba5dbc23f44d87826276bf6fd6b1c372ad24'
+export const USD_ADDRESS = "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb" // DAI
+
 
 /* TODO: MOVE ALL ABI to a separate file ABI.js*/
 export const ERC20ABI = [

@@ -125,7 +125,7 @@ function ViewUserTx() {
                                 String(data.additionalData.src).toLowerCase() === ETH_TOKEN
                                     ?
                                     (
-                                        <React.Fragment>MATIC</React.Fragment>
+                                        <React.Fragment>BASE</React.Fragment>
                                     )
                                     :
                                     (
@@ -141,7 +141,7 @@ function ViewUserTx() {
                                 String(data.additionalData.dest).toLowerCase() === ETH_TOKEN
                                     ?
                                     (
-                                        <React.Fragment>MATIC</React.Fragment>
+                                        <React.Fragment>BASE</React.Fragment>
                                     )
                                     :
                                     (

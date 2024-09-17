@@ -27,7 +27,7 @@ class TradeViaQuickSwap extends Component {
         super(props, context);
 
         this.state = {
-            Send: 'MATIC',
+            Send: 'BASE',
             Recive: 'DAI',
             AmountSend: 0,
             AmountRecive: 0,
@@ -68,9 +68,9 @@ class TradeViaQuickSwap extends Component {
     // get tokens addresses and symbols from paraswap api
     initData = async () => {
         let tokens = [
-            { symbol: "MATIC", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
+            { symbol: "BASE", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
         ];
-        let symbols = ['MATIC', 'DAI'];
+        let symbols = ['BASE', 'DAI'];
         try {
             const apiTokens = quickswapTokens
             for (const [, value] of Object.entries(apiTokens)) {

@@ -226,7 +226,7 @@ function ViewFund(props) {
             props.MobXStorage.netId && NeworkID !== props.MobXStorage.netId
               ?
               (
-                <Alert status="error" sx={{ color: "red", fontSize: "sm",fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center",textTransform:"uppercase" }}><AlertIcon color="red" />please change MetaMask to MATIC network</Alert>
+                <Alert status="error" sx={{ color: "red", fontSize: "sm",fontWeight:"bold",display:"flex",alignItems:"center",justifyContent:"center",textTransform:"uppercase" }}><AlertIcon color="red" />please change MetaMask to BASE network</Alert>
               )
               : null
           }
@@ -325,7 +325,7 @@ function ViewFund(props) {
                                                     }
                                                 />
                                             }
-                                            name='Fund profit in MATIC'
+                                            name='Fund profit in BASE'
                                             value={profitInEth}
                                         />
                                         <ShadowBox
@@ -351,7 +351,7 @@ function ViewFund(props) {
                                                     icon={<Icon w='28px' h='28px' as={MdAttachMoney} color={brandColor} />}
                                                 />
                                             }
-                                            name='Fund value in MATIC'
+                                            name='Fund value in BASE'
                                             value={valueInEth}
                                         />
                                         <ShadowBox
@@ -451,7 +451,7 @@ function ViewFund(props) {
                                                                 <Tr>
                                                                     <Th>Token</Th>
                                                                     <Th>% from fund</Th>
-                                                                    <Th>Value in MATIC</Th>
+                                                                    <Th>Value in BASE</Th>
                                                                     <Th>Balance</Th>
                                                                 </Tr>
                                                             </Thead>
@@ -550,7 +550,7 @@ function ViewFund(props) {
                                                                 owner={owner}
                                                             />
                                                             {
-                                                                mainAsset === 'MATIC' ?
+                                                                mainAsset === 'BASE' ?
                                                                     (
                                                                         <UpdateUSDAsset
                                                                             web3={props.MobXStorage.web3}
@@ -582,7 +582,7 @@ function ViewFund(props) {
                                                                 </Button>
                                                             </Tooltip>
                                                             {
-                                                                mainAsset === "MATIC" ?
+                                                                mainAsset === "BASE" ?
                                                                     (
                                                                         <Tooltip hasArrow label={props.MobXStorage.web3 ? "You can't use this button because You are not owner of this smart fund" : "Please connect to web3"} bg={tooltipBg}>
                                                                             <Button flexGrow="1" minWidth={{ base: '100%', sm: 'auto' }} bg={allbtnBg} color="#fff" sx={{ _hover: { backgroundColor: "#027CB8" } }}>

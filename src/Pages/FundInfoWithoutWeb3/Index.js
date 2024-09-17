@@ -190,7 +190,7 @@ function ViewFundWithoutWeb3(props) {
                                             }
                                         />
                                     }
-                                    name='Fund profit in MATIC'
+                                    name='Fund profit in BASE'
                                     value={fromWei(String(fundData.profitInETH), 'ether')}
                                 />
                                 <ShadowBox
@@ -216,7 +216,7 @@ function ViewFundWithoutWeb3(props) {
                                             icon={<Icon w='28px' h='28px' as={MdAttachMoney} color={brandColor} />}
                                         />
                                     }
-                                    name='Fund value in MATIC'
+                                    name='Fund value in BASE'
                                     value={fromWei(String(fundData.valueInETH), 'ether')}
                                 />
                                 <ShadowBox
