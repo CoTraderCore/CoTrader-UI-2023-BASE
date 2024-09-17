@@ -35,7 +35,7 @@ function CreateNewFund(props) {
                     // create fund
                     contract.methods
                         .createSmartFund(name, percent * percentMultiplier, coreAsset, verified)
-                        .send({ from: props.accounts[0] })
+                        .send({ from: props.accounts[0], gasPrice: await props.web3.eth.getGasPrice() })
                         .on('transactionHash', (hash) => {
                             // pending status for DB
                             setPending(null, 1, props.accounts[0], block, hash, 'SmartFundCreated');
