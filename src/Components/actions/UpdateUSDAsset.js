@@ -71,7 +71,7 @@ const UpdateUSDAsset = (props) => {
         if (isAddress(newUSDTokenAddress)) {
             await fundContract.methods
                 .changeStableCoinAddress(newUSDTokenAddress)
-                .send({ from: props.accounts[0] });
+                .send({ from: props.accounts[0], gasPrice: await props.web3.eth.getGasPrice() });
             setShowSuccessMsg(true);
         } else {
             alert('Please select a valid token address');

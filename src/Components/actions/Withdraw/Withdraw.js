@@ -29,7 +29,7 @@ function Withdraw(props) {
 
                     contract.methods
                         .withdraw(...params)
-                        .send({ from: props.accounts[0] })
+                        .send({ from: props.accounts[0], gasPrice: await props.web3.eth.getGasPrice() })
                         .on('transactionHash', (hash) => {
                             props.pending(true, txCount + 1);
                             setPending(address, 1, props.accounts[0], block, hash, "Withdraw");

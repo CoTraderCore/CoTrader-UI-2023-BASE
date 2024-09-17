@@ -61,16 +61,22 @@ const WhiteList = (props) => {
       }
     };
   
-    const setWhitelistOnly = (_bool) => {
-      contract.methods.setWhitelistOnly(_bool).send({ from: props.accounts[0] });
+    const setWhitelistOnly = async (_bool) => {
+      contract.methods.setWhitelistOnly(_bool).send({ 
+        from: props.accounts[0],
+        gasPrice: await props.web3.eth.getGasPrice()
+     });
       setShow(false);
     };
   
-    const addToWhitelistOnly = (_bool) => {
+    const addToWhitelistOnly = async (_bool) => {
       if (props.web3.utils.isAddress(userWhiteListAddress)) {
         contract.methods
           .setWhitelistAddress(userWhiteListAddress, userStatus)
-          .send({ from: props.accounts[0] });
+          .send({ 
+            from: props.accounts[0],
+            gasPrice: await props.web3.eth.getGasPrice()
+         });
         setShow(false);
       } else {
         alert('Not a correct address');
