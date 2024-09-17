@@ -28,7 +28,7 @@ class TradeViaQuickSwap extends Component {
 
         this.state = {
             Send: 'BASE',
-            Recive: 'DAI',
+            Recive: 'USDC',
             AmountSend: 0,
             AmountRecive: 0,
             slippageFrom: 0,
@@ -70,9 +70,11 @@ class TradeViaQuickSwap extends Component {
         let tokens = [
             { symbol: "BASE", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
         ];
-        let symbols = ['BASE', 'DAI'];
+        let symbols = ['BASE', 'USDC'];
         try {
             const apiTokens = quickswapTokens
+
+            console.log("apiTokens", apiTokens)
             for (const [, value] of Object.entries(apiTokens)) {
                 symbols.push(value.symbol);
                 tokens.push({
