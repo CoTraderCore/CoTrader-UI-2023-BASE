@@ -9,7 +9,7 @@ export const OneInchApi = 'https://api.1inch.exchange/v3.0/137/'
 
 export const NeworkID = 8453
 export const SmartFundRegistryADDRESS = '0xEEce063BB21E231B2b9981Ca254B19b651aDb021'
-export const EtherscanLink = 'https://basescan.com/'
+export const EtherscanLink = 'https://basescan.org/'
 export const APIEnpoint = !isLocal ? 'https://api-base.cotrader.com/' : 'http://localhost:9008/'
 export const PricePortalUNI = "0x3aE392A4c6a99FcB991E208f9D74618fff513834"
 export const ExchangePortalAddressLight = '0x6F553184C04a4aD0b3551A4ff60FB73BB6E90408'

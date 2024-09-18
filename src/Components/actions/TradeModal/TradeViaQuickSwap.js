@@ -217,12 +217,23 @@ class TradeViaQuickSwap extends Component {
             // get merkle tree data
             const { proof, positions } = getMerkleTreeData(this.state.sendTo)
 
+            console.log(
+                this.state.sendFrom,
+                amountInWei,
+                this.state.sendTo,
+                4,
+                proof,
+                positions,
+                "0x",
+                minReturn
+            )
+
             // trade
             smartFund.methods.trade(
                 this.state.sendFrom,
                 amountInWei,
                 this.state.sendTo,
-                1,
+                4,
                 proof,
                 positions,
                 "0x",
