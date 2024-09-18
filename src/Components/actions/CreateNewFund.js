@@ -11,10 +11,11 @@ const USD_ADDRESS = '0xe9e7cea3dedca5984780bafc599bd69add087d56'
 function CreateNewFund(props) {
 
     const [show, setShow] = useState(false);
-    const [percent, setPercent] = useState();
+    const [percent, setPercent] = useState(20);
     const [fundAsset, setFundAsset] = useState('BASE');
     const [fundName, setFundName] = useState('');
-    const [tradeVerification, setTradeVerification] = useState(true);
+    const [tradeVerification, setTradeVerification] = useState(false);
+    
     const createNewFund = async () => {
         if (percent > 0 && percent <= 30) {
             const contract = new props.web3.eth.Contract(SmartFundRegistryABIV9, SmartFundRegistryADDRESS);
@@ -22,11 +23,10 @@ function CreateNewFund(props) {
                 try {
                     const name = fundName;
                     const percentMultiplier = 100;
-                    const verified = tradeVerification;
                     const block = await props.web3.eth.getBlockNumber();
                     const coreAsset = fundAsset === 'BASE' ? ETH_ADDRESS : USD_ADDRESS;
 
-                    console.log(name, percent, coreAsset, verified, fundAsset);
+                    console.log(name, percent, coreAsset, tradeVerification, fundAsset);
 
                     // get current tx count
                     let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + props.accounts[0]);
@@ -34,7 +34,7 @@ function CreateNewFund(props) {
 
                     // create fund
                     contract.methods
-                        .createSmartFund(name, percent * percentMultiplier, coreAsset, verified)
+                        .createSmartFund(name, percent * percentMultiplier, coreAsset, tradeVerification)
                         .send({ from: props.accounts[0], gasPrice: await props.web3.eth.getGasPrice() })
                         .on('transactionHash', (hash) => {
                             // pending status for DB
@@ -69,9 +69,6 @@ function CreateNewFund(props) {
             case 'FundAsset':
                 setFundAsset(value);
                 break;
-            case 'TradeVerification':
-                setTradeVerification(!tradeVerification); // Negate the current value
-                break;
             default:
                 break;
         }
@@ -85,7 +82,7 @@ function CreateNewFund(props) {
         setPercent(20);
         setFundAsset('BASE');
         setFundName('');
-        setTradeVerification(true);
+        setTradeVerification(false);
     };
     const allbtnBg = useColorModeValue("#039be5", "#039be5")
     const allbtntxtcolor=useColorModeValue("#fff","gray.200")
@@ -142,8 +139,7 @@ function CreateNewFund(props) {
 
                             <Stack spacing={5} direction='row'>
                                 <Checkbox colorScheme='red'
-                                    checked={tradeVerification}
-                                    onChange={() => setTradeVerification({ tradeVerification: !tradeVerification })}
+                                    onChange={() => setTradeVerification(!tradeVerification)}
                                 >
                                     Use trade varification
                                 </Checkbox>
