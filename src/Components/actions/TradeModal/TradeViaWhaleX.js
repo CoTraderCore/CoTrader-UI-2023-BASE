@@ -195,7 +195,7 @@ class TradeViaWhaleX extends Component {
     }
 
     // trade via 1 inch
-    tradeViaQuickSwap = async () => {
+    buyOnWhaleX = async () => {
         try {
             const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
             const block = await this.props.web3.eth.getBlockNumber()
@@ -222,7 +222,7 @@ class TradeViaWhaleX extends Component {
                 this.state.sendFrom,
                 amountInWei,
                 this.state.sendTo,
-                4,
+                5,
                 proof,
                 positions,
                 "0x",
@@ -255,7 +255,7 @@ class TradeViaWhaleX extends Component {
             const status = await this.checkFundBalance()
             if (status) {
                 this.setState({ prepareData: true })
-                this.tradeViaQuickSwap()
+                this.buyOnWhaleX()
             } else {
                 this.setState({ ERRORText: `Your smart fund don't have enough ${this.state.Send}` })
             }
