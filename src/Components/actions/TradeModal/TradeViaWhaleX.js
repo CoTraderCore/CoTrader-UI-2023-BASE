@@ -56,7 +56,10 @@ class TradeViaWhaleX extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.Recive !== this.state.Recive || prevState.AmountSend !== this.state.AmountSend
+        if (prevState.Send !== this.state.Send
+            || prevState.Recive !== this.state.Recive
+            || prevState.AmountSend !== this.state.AmountSend
+            || prevState.AmountRecive !== this.state.AmountRecive
         ) {
             this.setState({ ERRORText: '' })
         }
@@ -126,27 +129,69 @@ class TradeViaWhaleX extends Component {
 
     // helper for update state
     change = async e => {
-        this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
-        // get data
-        const targetName = e.target.name
-        const targerValue = e.target.value
-        
+        // Update rate in correct direction order and set state
+        if (e.target.name === "AmountSend") {
+            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+            // get data
+            const targetName = e.target.name
+            const targerValue = e.target.value
+            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+            // get rate and slippage in current order
+            const amountRecive = await this.setRate(sendFrom, sendTo, targerValue, "AmountRecive", decimalsFrom, decimalsTo)
+            const slippageFrom = await this.getSlippage(sendFrom, sendTo, targerValue, amountRecive, decimalsFrom, decimalsTo)
+            // update states
+            this.setState({
+                [targetName]: targerValue,
+                sendFrom,
+                sendTo,
+                decimalsFrom,
+                decimalsTo,
+                slippageFrom,
+                slippageTo: 0,
+                shouldUpdatePrice: false
+            })
+        }
+        // Update rate in reverse order direction and set state
+        else if (e.target.name === "AmountRecive") {
+            this.setState({ shouldUpdatePrice: true, slippageTo: 0, slippageFrom: 0 })
+            // get data
+            const targetName = e.target.name
+            const targerValue = e.target.value
+            const { sendFrom, sendTo, decimalsFrom, decimalsTo } = this.getDirectionInfo()
+            // update rate and slippage in vice versa order
+            const amountRecive = await this.setRate(sendTo, sendFrom, targerValue, "AmountSend", decimalsTo, decimalsFrom)
+            const slippageTo = await this.getSlippage(sendTo, sendFrom, targerValue, amountRecive, decimalsTo, decimalsFrom)
+            // update states
+            this.setState({
+                [targetName]: targerValue,
+                sendFrom,
+                sendTo,
+                decimalsFrom,
+                decimalsTo,
+                slippageFrom: 0,
+                slippageTo,
+                shouldUpdatePrice: false
+            })
+        }
+        // Just set state by input
+        else {
+            this.setState({
+                [e.target.name]: e.target.value
+            })
+        }
+    }
+
+    // found addresses and decimals by direction symbols
+    getDirectionInfo = () => {
+        const From = this.state.tokens.filter(item => item.symbol === this.state.Send)
+        const decimalsFrom = From[0].decimals
+        const sendFrom = From[0].address
+
         const To = this.state.tokens.filter(item => item.symbol === this.state.Recive)
         const decimalsTo = To[0].decimals
         const sendTo = To[0].address
 
-        // update rate and slippage in vice versa order
-        const amountRecive = await this.setRate(sendTo, targerValue, "AmountSend", decimalsTo)
-        const slippageTo = await this.getSlippage(sendTo, targerValue, amountRecive, decimalsTo)
-        // update states
-        this.setState({
-            [targetName]: targerValue,
-            sendTo,
-            decimalsTo,
-            slippageFrom: 0,
-            slippageTo,
-            shouldUpdatePrice: false
-        })
+        return { sendFrom, sendTo, decimalsFrom, decimalsTo }
     }
 
     // trade via 1 inch
@@ -225,10 +270,7 @@ class TradeViaWhaleX extends Component {
     * type (direction Send or Recieve),
     * decimals token decimals
     */
-    setRate = async (to, amount, type, decimalsTo) => {
-        // hardcode buy from ETH for Whale X case
-        const from = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-        const decimalsFrom = 18
+    setRate = async (from, to, amount, type, decimalsFrom, decimalsTo) => {
         const value = await this.getRate(from, to, amount, decimalsFrom, decimalsTo)
         if (value) {
             const result = fromWeiByDecimalsInput(decimalsTo, value)
@@ -264,10 +306,7 @@ class TradeViaWhaleX extends Component {
     }
 
     // get slippage percent
-    getSlippage = async (sendTo, amountSend, amountRecive, decimalsTo) => {
-        // hardcode buy from ETH for whale X case
-        const sendFrom = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-        const decimalsFrom = 18
+    getSlippage = async (sendFrom, sendTo, amountSend, amountRecive, decimalsFrom, decimalsTo) => {
         try {
             const expectedRatio = new BigNumber(
                 toWeiByDecimalsInput(decimalsTo, amountRecive)
@@ -355,8 +394,44 @@ class TradeViaWhaleX extends Component {
                         ?
                         (
                             <React.Fragment>
+                                {/* SEND */}
+                                <FormLabel>Buy on Whale X with less slippage, note: not all tokens in this list available on WhaleX</FormLabel>
+                                <br/>
+                                <FormLabel>Pay with</FormLabel>
+                                <InputGroup>
+                                    <SelectToken
+                                        web3={this.props.web3}
+                                        symbols={[this.state.Send]} // in whale X allow pay only with base asset
+                                        tokens={this.state.tokens}
+                                        onChangeTypeHead={this.onChangeTypeHead}
+                                        direction="Send"
+                                        currentSymbol={this.state.Send}
+                                        pushNewTokenInList={this.pushNewTokenInList}
+                                    />
+                                    <Input
+                                        type="number"
+                                        placeholder={this.state.AmountSend}
+                                        min="0"
+                                        name="AmountSend"
+                                        value={this.state.AmountSend}
+                                        onChange={e => this.delayChange(e)}
+                                    />
+                                </InputGroup>
+                                {
+                                    this.state.slippageTo > 0
+                                        ?
+                                        (
+                                            <Text mt={1} sx={{ color: "blue" }}>Slippage: {String(this.state.slippageTo)} %</Text>
+                                        ) : null
+                                }
+
+                                {
+                                    this.state.shouldUpdatePrice ? (<Pending />) : null
+                                }
+                                <br />
+
                                 {/* RECEIVE */}
-                                <FormLabel>Buy token with less slippage on WhaleX</FormLabel>
+                                <FormLabel>Receive</FormLabel>
                                 <InputGroup >
                                     <SelectToken
                                         web3={this.props.web3}
@@ -388,7 +463,7 @@ class TradeViaWhaleX extends Component {
                                 {this.ErrorMsg()}
 
                                 {/* Trigger tarde */}
-                                <Button mt={5} colorScheme="teal" onClick={() => this.validation()}>Trade</Button>
+                                <Button mt={5} colorScheme="teal" onClick={() => this.validation()}>fromWeiByDecimalsInput</Button>
 
                                 {
                                     this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
