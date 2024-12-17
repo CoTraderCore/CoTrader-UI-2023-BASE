@@ -24,6 +24,7 @@ import SetGasPrice from '../../Settings/SetGasPrice.js';
 
 // trade modals
 import TradeViaQuickSwap from './TradeViaQuickSwap.js';
+import TradeViaWhaleX from './TradeViaWhaleX.js'
 
 
 function TradeModal(props) {
@@ -66,11 +67,24 @@ function TradeModal(props) {
           <ModalBody>
             <Tabs defaultIndex={0}>
               <TabList>
-                <Tab>QuickSwap</Tab>
+                <Tab>Quick Swap</Tab>
+                <Tab>Whale X</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
                   <TradeViaQuickSwap
+                    web3={props.web3}
+                    accounts={props.accounts}
+                    smartFundAddress={props.smartFundAddress}
+                    pending={props.pending}
+                    version={props.version}
+                    exchangePortalAddress={exchangePortalAddress}
+                    closeModal={onClose}
+                  />
+                </TabPanel>
+
+                <TabPanel>
+                  <TradeViaWhaleX
                     web3={props.web3}
                     accounts={props.accounts}
                     smartFundAddress={props.smartFundAddress}
