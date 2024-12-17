@@ -463,7 +463,7 @@ class TradeViaWhaleX extends Component {
                                 {this.ErrorMsg()}
 
                                 {/* Trigger tarde */}
-                                <Button mt={5} colorScheme="teal" onClick={() => this.validation()}>fromWeiByDecimalsInput</Button>
+                                <Button mt={5} colorScheme="teal" onClick={() => this.validation()}>Trade</Button>
 
                                 {
                                     this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
